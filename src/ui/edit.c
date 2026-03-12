@@ -20,7 +20,7 @@ typedef struct {
 static HEADER_DESC HEADER_D = {{0, 0, 0, 0}, NULL, (int)"SiePD", LGP_NULL};
 
 static SOFTKEY_DESC SOFTKEY_D[] = {
-    {0x0018, 0x0000, (int)"Save"},
+    {0x0018, 0x0000, (int)"Ok"},
 };
 
 static const SOFTKEYSTAB SOFTKEYS_TAB = {
