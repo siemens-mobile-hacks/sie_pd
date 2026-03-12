@@ -1,6 +1,7 @@
 #include <swilib.h>
 #include <string.h>
 #include <stdlib.h>
+#include "../common.h"
 #include "ui.h"
 #include "edit.h"
 
@@ -94,8 +95,7 @@ static void GHook(GUI *gui, int cmd) {
         }
         EDIT_SetTextToFocused(gui, &ws);
     } else if (cmd == TI_CMD_REDRAW) {
-        SetSoftKey(gui, &SOFTKEY_D[0], SET_LEFT_SOFTKEY);
-
+        SetFileNameToHeader(GetHeaderPointer(gui), data->ui_data->csm);
         ExtractEditControl(gui, EC_TYPE, &ec);
         if (ec.start_item_cbox != data->cbox_type_id) {
             data->cbox_type_id = ec.start_item_cbox;
@@ -109,6 +109,7 @@ static void GHook(GUI *gui, int cmd) {
             StoreEditControl(gui, 8, &ec_value);
             EDIT_SetTextToEditControl(gui, 8, ec_value.pWS);
         }
+        SetSoftKey(gui, &SOFTKEY_D[0], SET_LEFT_SOFTKEY);
     } else if (cmd == TI_CMD_DESTROY) {
         mfree(data);
     }

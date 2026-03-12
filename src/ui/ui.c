@@ -2,9 +2,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include "../common.h"
 #include "edit.h"
 #include "options.h"
-#include "../common.h"
 #include "ui.h"
 
 static HEADER_DESC HEADER_D = {{0, 0, 0, 0}, NULL, (int)"SiePD", LGP_NULL};
@@ -39,9 +39,7 @@ static int OnKey(GUI *gui, GUI_MSG *msg) {
 static void GHook(GUI *gui, int cmd) {
     UI_DATA *data = GUI_GetUserPointer(gui);
     if (cmd == UI_CMD_REDRAW) {
-        WSHDR *header_ws = AllocWS(128);
         WSHDR *extra_header_ws = AllocWS(8);
-        wstrcpy(header_ws, data->csm->file_name);
         const int items_count = GetMenuItemCount(gui);
         if (items_count) {
             const int item_n = GetCurMenuItem(gui);
@@ -50,7 +48,7 @@ static void GHook(GUI *gui, int cmd) {
             wsprintf(extra_header_ws, "");
         }
         void *header = GetHeaderPointer(gui);
-        SetHeaderText(header, header_ws, malloc_adr(), mfree_adr());
+        SetFileNameToHeader(header, data->csm);
         SetHeaderExtraText(header, extra_header_ws, malloc_adr(), mfree_adr());
     } else if (cmd == UI_CMD_DESTROY) {
         pd_free_nodes(data->csm->nodes);
