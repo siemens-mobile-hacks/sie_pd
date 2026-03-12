@@ -88,7 +88,7 @@ static const MENU_DESC MENU_D = {
 
 int CreateUI(MAIN_CSM *csm) {
     pd_node_t **nodes = NULL;
-    if (pd_read_file(csm->file_path, &nodes) == 0) {
+    if (pd_read_file_ws(csm->file_path, &nodes) == 0) {
         memcpy(&(HEADER_D.rc), GetHeaderRECT(), sizeof(RECT));
 
         UI_DATA *data = malloc(sizeof(UI_DATA));

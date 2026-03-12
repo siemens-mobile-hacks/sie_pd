@@ -5,9 +5,11 @@
 
 typedef struct {
     CSM_RAM csm;
-    char file_path[128];
+    WSHDR *file_path;
     WSHDR *file_name;
     int gui_id;
+    int pw_gui_id;
+    int ne_csm_id;
     pd_node_t **nodes;
 } MAIN_CSM;
 
