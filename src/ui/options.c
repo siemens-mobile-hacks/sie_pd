@@ -1,11 +1,12 @@
 #include <swilib.h>
 #include <string.h>
-#include "ui.h"
-#include "icons.h"
 #include "../ipc.h"
 #include "../common.h"
+#include "ui.h"
+#include "edit.h"
+#include "icons.h"
 
-#define ITEMS_N 4
+#define ITEMS_N 5
 
 static HEADER_DESC HEADER_D = {{0, 0, 0, 0},NULL, (int)"Options", LGP_NULL};
 
@@ -23,6 +24,7 @@ static const SOFTKEYSTAB SOFTKEYS_TAB = {
 
 enum {
     MENU_ITEM_ADD_NODE,
+    MENU_ITEM_EDIT_NODE,
     MENU_ITEM_DELETE_NODE,
     MENU_ITEM_SAVE,
     MENU_ITEM_EXIT,
@@ -40,6 +42,12 @@ static void AddNode_Proc(GUI *gui) {
     GeneralFuncF1(1);
 
     data->is_edited = 1;
+}
+
+static void EditNode_Proc(GUI *gui) {
+    GUI *main_gui = GUI_GetUserPointer(gui);
+    GeneralFuncF1(1);
+    Edit_CreateUI(main_gui);
 }
 
 static void DeleteNode_Proc(GUI *gui) {
@@ -76,6 +84,7 @@ static int ICON[] = {ICON_EMPTY};
 
 static MENUITEM_DESC ITEMS[ITEMS_N] = {
     {ICON, (int)"Add node", LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
+    {ICON, (int)"Edit node", LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
     {ICON, (int)"Delete node", LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
     {ICON, (int)"Save", LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
     {ICON, (int)"Exit", LGP_NULL, 0, NULL, MENU_FLAG3, MENU_FLAG2},
@@ -83,6 +92,7 @@ static MENUITEM_DESC ITEMS[ITEMS_N] = {
 
 static const MENUPROCS_DESC PROCS[ITEMS_N] = {
     AddNode_Proc,
+    EditNode_Proc,
     DeleteNode_Proc,
     Save_Proc,
     Exit_Proc,
@@ -112,6 +122,7 @@ int Options_CreateUI(GUI *gui) {
 
     const int items = GetMenuItemCount(gui);
     if (!items) {
+        to_remove[++items_count] = MENU_ITEM_EDIT_NODE;
         to_remove[++items_count] = MENU_ITEM_DELETE_NODE;
     }
     if (!data->is_edited) {
