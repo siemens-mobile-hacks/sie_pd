@@ -9,3 +9,9 @@ mkdir build && cd build
 cmake ..
 make
 ```
+
+## Screenshots
+
+![Main](screenshots/main.png)
+![Edit](screenshots/edit.png)
+![Options](screenshots/options.png)
